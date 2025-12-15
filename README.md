@@ -28,3 +28,34 @@ district-level analysis, and Water User Association (WUA) coverage**.
 ---
 
 ## 📁 Repository Structure
+
+
+
+
+---
+
+## 📌 Key Insights
+- Significant variation in irrigated area across districts
+- Seasonal dominance (Kharif/Rabi/Perennial) differs by region
+- WUA coverage highlights areas for improved water management
+
+---
+
+## 🚀 How to Use
+1. Download the `.pbix` file from the **Dashboard** folder
+2. Open it in **Power BI Desktop**
+3. Load the dataset if prompted
+4. Use slicers to interact with the dashboard
+
+---
+
+## 👤 Author
+**Kunal Kumar**  
+B.Tech CSE  
+Lovely Professional University  
+
+---
+
+## 📬 Connect
+Feel free to connect with me on LinkedIn for feedback and collaboration
+
