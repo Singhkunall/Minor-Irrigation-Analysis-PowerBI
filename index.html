@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minor Irrigation Analysis | Power BI & Data Analytics Showcase</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        emerald: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #38bdf8 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #0284c7 100%);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-brand-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                    <i class="fa-solid fa-chart-pie text-white text-xl"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
+                        Minor Irrigation Analytics
+                        <span class="bg-brand-500/20 text-brand-400 text-xs px-2 py-0.5 rounded-full border border-brand-500/30">Power BI</span>
+                    </span>
+                    <p class="text-xs text-slate-400 hidden sm:block">Uttar Pradesh Irrigation & Groundwater Intelligence</p>
+                </div>
+            </div>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <a href="#overview" class="hover:text-cyan-400 transition-colors">Overview</a>
+                <a href="#powerbi-viewer" class="hover:text-cyan-400 transition-colors">Power BI Viewer</a>
+                <a href="#analytics" class="hover:text-cyan-400 transition-colors">Interactive Charts</a>
+                <a href="#documentation" class="hover:text-cyan-400 transition-colors">Report Docs</a>
+                <a href="#downloads" class="hover:text-cyan-400 transition-colors">Downloads</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <a href="https://github.com/Singhkunall/Minor-Irrigation-Analysis-PowerBI" target="_blank" class="flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-all shadow-sm">
+                    <i class="fa-brands fa-github text-base"></i>
+                    <span>GitHub Repo</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section id="overview" class="relative rounded-3xl overflow-hidden glass-card p-8 sm:p-12 border border-slate-800 shadow-2xl">
+            <div class="absolute -right-20 -top-20 w-96 h-96 bg-brand-600/20 rounded-full filter blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-cyan-600/20 rounded-full filter blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-3xl space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-medium">
+                    <i class="fa-solid fa-droplet text-cyan-400"></i> Comprehensive Agricultural Data Analysis
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                    Minor Irrigation & Groundwater Analysis <br>
+                    <span class="gradient-text">State of Uttar Pradesh</span>
+                </h1>
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                    An interactive data intelligence dashboard created in <strong>Microsoft Power BI</strong>. Analyzing village-level irrigation infrastructure, seasonal crop coverage (Kharif, Rabi, Perennial), cultivable area utilization, and pre/post-monsoon groundwater fluctuations across <strong>106,402 villages</strong> and <strong>75 districts</strong>.
+                </p>
+
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <a href="#powerbi-viewer" class="px-6 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-brand-600 to-cyan-500 hover:from-brand-500 hover:to-cyan-400 text-white shadow-lg shadow-brand-500/25 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-desktop"></i> Open Power BI Viewer
+                    </a>
+                    <a href="#analytics" class="px-6 py-3 text-sm font-semibold rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-cyan-400"></i> Explore Web Analytics
+                    </a>
+                    <a href="#documentation" class="px-6 py-3 text-sm font-semibold rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-file-pdf text-rose-400"></i> Read Executive Report
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live KPI Stats Grid -->
+        <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                    <span>Districts</span>
+                    <i class="fa-solid fa-map-location-dot text-brand-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-white">75</div>
+                <div class="text-xs text-slate-400 mt-1">Full State Coverage</div>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                    <span>Villages</span>
+                    <i class="fa-solid fa-house-chimney-window text-cyan-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-white">106,402</div>
+                <div class="text-xs text-slate-400 mt-1">Analyzed Datapoints</div>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                    <span>Geo Area</span>
+                    <i class="fa-solid fa-earth-asia text-emerald-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-white">23.6M</div>
+                <div class="text-xs text-slate-400 mt-1">Hectares Total</div>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                    <span>Cultivable</span>
+                    <i class="fa-solid fa-wheat-awn text-amber-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-white">17.87M</div>
+                <div class="text-xs text-slate-400 mt-1">75.7% of Total Area</div>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                    <span>Irrigated</span>
+                    <i class="fa-solid fa-water text-blue-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-white">19.10M</div>
+                <div class="text-xs text-slate-400 mt-1">Gross Irrigated Area (ha)</div>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+                    <span>Groundwater</span>
+                    <i class="fa-solid fa-arrow-down-short-wide text-indigo-400"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-white">9.0m → 8.88m</div>
+                <div class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> Monsoon Recharge</div>
+            </div>
+        </section>
+
+        <!-- Power BI Embed & Interactive Dashboard Section -->
+        <section id="powerbi-viewer" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-display text-brand-400"></i>
+                        Live Power BI Report Container
+                    </h2>
+                    <p class="text-sm text-slate-400">Embed your live interactive `.pbix` report published via Microsoft Power BI Service</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="toggle-fullscreen" onclick="toggleFullScreen()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-expand"></i> Full Screen
+                    </button>
+                    <button onclick="showEmbedModal()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-600 hover:bg-brand-500 text-white shadow-sm transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-link"></i> Update Embed Link
+                    </button>
+                </div>
+            </div>
+
+            <!-- Viewport Container -->
+            <div id="pbi-container" class="glass-card rounded-2xl overflow-hidden border border-slate-800 relative min-h-[550px] flex flex-col">
+                <!-- Top Toolbar -->
+                <div class="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="text-xs text-slate-400 ml-2 font-mono" id="report-status">Status: Power BI Viewer Ready</span>
+                    </div>
+                    <div class="text-xs text-slate-400 font-mono">powerBIFinalProject.pbix</div>
+                </div>
+
+                <!-- Iframe Container / Placeholder -->
+                <div class="relative flex-grow w-full bg-slate-950 flex items-center justify-center p-4">
+                    <iframe id="pbi-iframe" class="w-full h-[520px] rounded-xl border-0 hidden" src="" allowFullScreen="true"></iframe>
+                    
+                    <div id="pbi-placeholder" class="text-center p-8 max-w-xl space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-500/20 border border-brand-500/30 text-brand-400 flex items-center justify-center mx-auto text-2xl shadow-xl">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Power BI Online Integration</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            To view your live interactive Power BI dashboard directly inside this frame, publish your report to Microsoft Power BI Service (`app.powerbi.com`) and paste your public Publish-to-Web iframe link.
+                        </p>
+                        <div class="pt-2 flex flex-wrap justify-center gap-3">
+                            <button onclick="showEmbedModal()" class="px-5 py-2.5 text-xs font-semibold rounded-xl bg-brand-600 hover:bg-brand-500 text-white shadow-lg transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-plus"></i> Enter Power BI Embed Link
+                            </button>
+                            <a href="#analytics" class="px-5 py-2.5 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-chart-simple text-cyan-400"></i> View Built-in Web Analytics Below
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Web Charts (Chart.js Data Visualizations) -->
+        <section id="analytics" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-chart-column text-cyan-400"></i>
+                        Interactive Web Analytics Dashboard
+                    </h2>
+                    <p class="text-sm text-slate-400">Calculated from 106,402 village schedules across Uttar Pradesh</p>
+                </div>
+                <div class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-2">
+                    <i class="fa-solid fa-filter text-brand-400"></i> Dynamic Aggregations
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Chart 1: Top Districts Irrigated Area -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-white text-base">Top 10 Districts by Irrigated Area</h3>
+                            <p class="text-xs text-slate-400">Breakdown across Kharif, Rabi & Perennial seasons (Hectares)</p>
+                        </div>
+                        <span class="text-xs text-cyan-400 font-semibold bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">Seasonal Stack</span>
+                    </div>
+                    <div class="h-72">
+                        <canvas id="chartTopDistricts"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Seasonal Share Breakdown -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-white text-base">Seasonal Irrigation Distribution</h3>
+                            <p class="text-xs text-slate-400">Proportion of gross irrigated area by cropping season</p>
+                        </div>
+                        <span class="text-xs text-indigo-400 font-semibold bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">Proportions</span>
+                    </div>
+                    <div class="h-72 flex items-center justify-center">
+                        <canvas id="chartSeasonalShare"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Groundwater Level Shifts -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-white text-base">Groundwater Level Pre vs Post Monsoon</h3>
+                            <p class="text-xs text-slate-400">Average depth to water table in meters (lower is closer to surface)</p>
+                        </div>
+                        <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">Water Depth</span>
+                    </div>
+                    <div class="h-72">
+                        <canvas id="chartWaterLevels"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Water User Associations (WUA) -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-white text-base">Water User Association (WUA) Existence</h3>
+                            <p class="text-xs text-slate-400">Presence of participatory water management bodies in villages</p>
+                        </div>
+                        <span class="text-xs text-amber-400 font-semibold bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">Governance</span>
+                    </div>
+                    <div class="h-72 flex items-center justify-center">
+                        <canvas id="chartWuaExist"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Full Project Documentation Report -->
+        <section id="documentation" class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-book-open-reader text-rose-400"></i>
+                        Project Report & Documentation
+                    </h2>
+                    <p class="text-sm text-slate-400">Summarized insights extracted from FinalPowerBIreport.pdf & .doc</p>
+                </div>
+                <a href="FinalPowerBIreport.pdf" download class="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-file-pdf text-rose-400"></i> Download Full PDF Report
+                </a>
+            </div>
+
+            <!-- Tabbed Accordion Container -->
+            <div class="space-y-4">
+                
+                <!-- Section 1 -->
+                <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/50">
+                    <button onclick="toggleDocSection('doc-sec-1')" class="w-full px-5 py-4 text-left font-semibold text-white flex items-center justify-between hover:bg-slate-800/50 transition-all">
+                        <span class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center text-xs">1</span>
+                            Executive Summary & Objective
+                        </span>
+                        <i id="icon-doc-sec-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="doc-sec-1" class="px-5 py-4 text-sm text-slate-300 leading-relaxed border-t border-slate-800 space-y-3">
+                        <p>
+                            This Minor Irrigation Analysis project provides a comprehensive data-driven study of irrigation infrastructure, crop season dependencies, and groundwater sustainability across Uttar Pradesh villages. The primary objective is to transform raw survey data into actionable insights for agricultural planners and policymakers using <strong>Microsoft Power BI</strong>.
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-400 pl-2">
+                            <li>Evaluate regional disparities in net sown vs irrigated areas.</li>
+                            <li>Analyze seasonal crop trends across Kharif, Rabi, and Perennial periods.</li>
+                            <li>Monitor pre-monsoon and post-monsoon groundwater level fluctuations.</li>
+                            <li>Assess the distribution and impact of Water User Associations (WUAs).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/50">
+                    <button onclick="toggleDocSection('doc-sec-2')" class="w-full px-5 py-4 text-left font-semibold text-white flex items-center justify-between hover:bg-slate-800/50 transition-all">
+                        <span class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs">2</span>
+                            Dataset Architecture & Data Cleaning
+                        </span>
+                        <i id="icon-doc-sec-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="doc-sec-2" class="px-5 py-4 text-sm text-slate-300 leading-relaxed border-t border-slate-800 space-y-3">
+                        <p>
+                            The core dataset consists of <strong>106,402 village records</strong> (`UPVillageSchedule.csv`) containing 19 distinct attribute columns covering geography, crop areas, irrigation modes, groundwater depths, and scheme availability.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-2 text-cyan-400">Power Query Cleaning Steps</h4>
+                                <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+                                    <li>Removed redundant header rows and null records.</li>
+                                    <li>Handled missing values (`NA` replaced with `0` for numeric measures).</li>
+                                    <li>Standardized district and block spelling conventions.</li>
+                                    <li>Converted text-formatted numbers into Decimal/Integer types.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-2 text-indigo-400">Calculated DAX Measures</h4>
+                                <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+                                    <li><code>Total Irrigated Area = SUM(Gross_Irrigated_Total)</code></li>
+                                    <li><code>Irrigation Efficiency % = DIVIDE(Net_Irrigated, Cultivable_Area)</code></li>
+                                    <li><code>Groundwater Level Change = Avg(Post_Monsoon) - Avg(Pre_Monsoon)</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/50">
+                    <button onclick="toggleDocSection('doc-sec-3')" class="w-full px-5 py-4 text-left font-semibold text-white flex items-center justify-between hover:bg-slate-800/50 transition-all">
+                        <span class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">3</span>
+                            Key Findings & Strategic Insights
+                        </span>
+                        <i id="icon-doc-sec-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="doc-sec-3" class="px-5 py-4 text-sm text-slate-300 leading-relaxed border-t border-slate-800 space-y-3">
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                <div>
+                                    <strong class="text-white">High Seasonal Dependency:</strong> Rabi season irrigation accounts for the highest water consumption (41.7%), heavily relying on tube-wells and groundwater, whereas Kharif season benefits partially from monsoon rains.
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                <div>
+                                    <strong class="text-white">Regional Disparities:</strong> Districts like Kheri, Aligarh, and Bareilly lead with over 500,000 hectares of irrigated coverage, while southern districts show lower net irrigation coverage relative to cultivable land.
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                <div>
+                                    <strong class="text-white">Groundwater Table Recharge:</strong> Post-monsoon groundwater levels demonstrate an average recovery of ~0.12 meters state-wide, but deep water tables (>15m) in districts like Prayagraj and Firozabad demand artificial recharge structures.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Project Download Center & Resources -->
+        <section id="downloads" class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-download text-indigo-400"></i>
+                    Project Assets & Download Center
+                </h2>
+                <p class="text-sm text-slate-400">Access original source files, raw CSV datasets, and compiled documentation</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- File 1: PBIX -->
+                <a href="powerBIFinalProject.pbix" download class="group p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-brand-500/50 hover:bg-slate-800/80 transition-all flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-chart-column"></i>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">8.26 MB</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm group-hover:text-brand-400 transition-colors">powerBIFinalProject.pbix</h4>
+                        <p class="text-xs text-slate-400 mt-1">Power BI Desktop Source File</p>
+                    </div>
+                    <div class="text-xs font-semibold text-brand-400 flex items-center gap-1">
+                        Download .PBIX <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </div>
+                </a>
+
+                <!-- File 2: CSV Dataset -->
+                <a href="UPVillageSchedule.csv" download class="group p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-800/80 transition-all flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-file-csv"></i>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">10.75 MB</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm group-hover:text-cyan-400 transition-colors">UPVillageSchedule.csv</h4>
+                        <p class="text-xs text-slate-400 mt-1">Village Schedule Dataset (106K Rows)</p>
+                    </div>
+                    <div class="text-xs font-semibold text-cyan-400 flex items-center gap-1">
+                        Download Dataset <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </div>
+                </a>
+
+                <!-- File 3: PDF Report -->
+                <a href="FinalPowerBIreport.pdf" download class="group p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 hover:bg-slate-800/80 transition-all flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">1.04 MB</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm group-hover:text-rose-400 transition-colors">FinalPowerBIreport.pdf</h4>
+                        <p class="text-xs text-slate-400 mt-1">Compiled Project Report PDF</p>
+                    </div>
+                    <div class="text-xs font-semibold text-rose-400 flex items-center gap-1">
+                        Download PDF <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </div>
+                </a>
+
+                <!-- File 4: Word Doc -->
+                <a href="FinalPowerBIreport.doc" download class="group p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 hover:bg-slate-800/80 transition-all flex flex-col justify-between space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-file-word"></i>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">259 KB</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm group-hover:text-indigo-400 transition-colors">FinalPowerBIreport.doc</h4>
+                        <p class="text-xs text-slate-400 mt-1">Editable Word Report Document</p>
+                    </div>
+                    <div class="text-xs font-semibold text-indigo-400 flex items-center gap-1">
+                        Download Word <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-8 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                &copy; Minor Irrigation Analysis Project | Created by <a href="https://github.com/Singhkunall" target="_blank" class="text-slate-300 hover:text-white font-medium underline">Singhkunall</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="https://github.com/Singhkunall/Minor-Irrigation-Analysis-PowerBI" target="_blank" class="hover:text-slate-300"><i class="fa-brands fa-github"></i> Repository</a>
+                <a href="#overview" class="hover:text-slate-300">Back to Top</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Embed Link Modal -->
+    <div id="embed-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-card max-w-lg w-full rounded-2xl p-6 border border-slate-800 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-link text-brand-400"></i> Configure Power BI Embed URL
+                </h3>
+                <button onclick="closeEmbedModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Paste the <strong>iframe source URL</strong> from Power BI Service (<code class="bg-slate-900 px-1 py-0.5 rounded text-cyan-300">File &gt; Embed Report &gt; Publish to Web</code>) to render your live report.
+            </p>
+            <div class="space-y-2">
+                <label class="text-xs font-semibold text-slate-400">Power BI Embed / Publish URL</label>
+                <input id="embed-url-input" type="url" placeholder="https://app.powerbi.com/view?r=ey..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-brand-500 font-mono">
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeEmbedModal()" class="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700">Cancel</button>
+                <button onclick="applyEmbedUrl()" class="px-5 py-2 text-xs font-semibold rounded-xl bg-brand-600 text-white hover:bg-brand-500 shadow-md">Apply Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        // Real Aggregated Data from UPVillageSchedule.csv
+        const analyticsData = {
+            top10Districts: ["Kheri", "Aligarh", "Bareilly", "Shahjahanpur", "Hardoi", "Sitapur", "Barabanki", "Jaunpur", "Firozabad", "Prayagraj"],
+            kharifArea: [232229, 214796, 187032, 195099, 142489, 163181, 151073, 181232, 146116, 166080],
+            rabiArea: [193800, 247876, 183658, 195541, 196693, 153580, 154439, 190682, 170712, 178848],
+            perennialArea: [169363, 3450, 72985, 61488, 74947, 73238, 40924, 20102, 16006, 15758],
+            preWater: [4.0, 12.6, 5.8, 6.8, 4.9, 6.4, 6.6, 8.5, 17.2, 20.2],
+            postWater: [4.1, 11.5, 4.6, 5.9, 4.5, 5.9, 5.9, 11.7, 16.2, 17.7]
+        };
+
+        // Initialize Charts
+        window.addEventListener('DOMContentLoaded', () => {
+            initTopDistrictsChart();
+            initSeasonalShareChart();
+            initWaterLevelsChart();
+            initWuaChart();
+        });
+
+        // Chart 1: Top Districts Stacked Bar
+        function initTopDistrictsChart() {
+            const ctx = document.getElementById('chartTopDistricts').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: analyticsData.top10Districts,
+                    datasets: [
+                        { label: 'Rabi Season (ha)', data: analyticsData.rabiArea, backgroundColor: '#6366f1' },
+                        { label: 'Kharif Season (ha)', data: analyticsData.kharifArea, backgroundColor: '#38bdf8' },
+                        { label: 'Perennial (ha)', data: analyticsData.perennialArea, backgroundColor: '#34d399' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { display: false } },
+                        y: { stacked: true, ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { size: 11 } } },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+        }
+
+        // Chart 2: Seasonal Share Doughnut
+        function initSeasonalShareChart() {
+            const ctx = document.getElementById('chartSeasonalShare').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Rabi Season (41.7%)', 'Kharif Season (38.4%)', 'Perennial (9.8%)', 'Other Seasons (10.1%)'],
+                    datasets: [{
+                        data: [7959402, 7329414, 1868113, 1940619],
+                        backgroundColor: ['#6366f1', '#38bdf8', '#34d399', '#f59e0b'],
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 11 }, padding: 15 } }
+                    }
+                }
+            });
+        }
+
+        // Chart 3: Groundwater Pre vs Post Monsoon
+        function initWaterLevelsChart() {
+            const ctx = document.getElementById('chartWaterLevels').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: analyticsData.top10Districts,
+                    datasets: [
+                        { label: 'Pre-Monsoon Depth (m)', data: analyticsData.preWater, backgroundColor: '#f43f5e' },
+                        { label: 'Post-Monsoon Depth (m)', data: analyticsData.postWater, backgroundColor: '#10b981' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { display: false } },
+                        y: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: 'Depth to Water Table (m)', color: '#64748b' } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        // Chart 4: WUA Existence Pie
+        function initWuaChart() {
+            const ctx = document.getElementById('chartWuaExist').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['No WUA Exists (86.8%)', 'WUA Exists (13.2%)'],
+                    datasets: [{
+                        data: [92344, 14058],
+                        backgroundColor: ['#475569', '#10b981'],
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 11 }, padding: 15 } }
+                    }
+                }
+            });
+        }
+
+        // Toggle Accordion Documentation
+        function toggleDocSection(id) {
+            const sec = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            if (sec.classList.contains('hidden')) {
+                sec.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                sec.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Full Screen Toggle for Power BI Frame
+        function toggleFullScreen() {
+            const elem = document.getElementById('pbi-container');
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen().catch(err => {
+                    alert(`Error attempting full-screen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Embed Link Modal Controls
+        function showEmbedModal() {
+            document.getElementById('embed-modal').classList.remove('hidden');
+        }
+
+        function closeEmbedModal() {
+            document.getElementById('embed-modal').classList.add('hidden');
+        }
+
+        function applyEmbedUrl() {
+            const url = document.getElementById('embed-url-input').value.trim();
+            if (url) {
+                const iframe = document.getElementById('pbi-iframe');
+                const placeholder = document.getElementById('pbi-placeholder');
+                const status = document.getElementById('report-status');
+                
+                iframe.src = url;
+                iframe.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                status.innerText = "Status: Live Power BI Report Streaming";
+                status.classList.replace('text-slate-400', 'text-emerald-400');
+                closeEmbedModal();
+            } else {
+                alert("Please enter a valid Power BI embed URL!");
+            }
+        }
+    </script>
+</body>
+</html>
